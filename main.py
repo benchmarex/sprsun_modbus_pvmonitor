@@ -92,11 +92,16 @@ def sprsun_modbus():
 
 
                 regs1 = c.read_holding_registers(313, 125)
-                # tu się zaczynają rejestry z danymi biezacymi w pompie ciepla adres 188 ilosc 30 rejestrów modbus
 
                 # if success display registers
                 if regs1:
                    print("modbus registers1 values " + str(regs1))
+
+                regs2 = c.read_holding_registers(438, 125)
+
+                # if success display registers
+                if regs2:
+                    print("modbus registers2 values " + str(regs2))
 
         global B1_PC_Temp_Powrot
         global B2_PC_Temp_Zasilanie
@@ -126,6 +131,7 @@ def sprsun_modbus():
         global Ogrzew_TempWody_Y3
         global Ogrzew_TempZewn_X4
         global Ogrzew_TempWody_Y4
+        global PC_Temp_CO_Zadana
 
         B1_PC_Temp_Powrot = str(data_converter((regs[0])) / 10)
         #print('B1_PC_Temp_Powrot '+B1_PC_Temp_Powrot +'°C')
@@ -159,6 +165,8 @@ def sprsun_modbus():
         Ogrzew_TempWody_Y4 = str(data_converter((regs1[24])) / 10)   #uwaga z innego banku
 
 
+        PC_Temp_CO_Zadana = str(data_converter((regs[28])) / 10)
+
         '''
         # ----------------------------------------------------------------------------------------------
         # sprawdzenie czy nie ma przeklamań w odczycie z pompy potrafi czasami odczytywac same zera
@@ -188,7 +196,7 @@ def sprsun_modbus():
         l = tkinter.Label(text='Temp_Parownika2 ' + B19_PC_Temp_Parownika2 + '°C ').place(x=0, y=180)
         l = tkinter.Label(text='Obroty_Wentylatora ' + Y1_PC_Wentylator_Obroty + ' RPM ').place(x=0, y=200)
         l = tkinter.Label(text='Wysterowanie_Pompy_Obiegowej ' + Y3_PC_Pompa_Obiegowa + ' % ').place(x=0, y=220)
-      #  l = tkinter.Label(text='Wydajność_Sprężarki_Wymagana ' + PC_Wydajnosc_Sprezarki_Wymagana + ' % ').place(x=0, y=240)
+        l = tkinter.Label(text='Temperatura CO zadana  ' + PC_Temp_CO_Zadana + '°C  ').place(x=0, y=240)
         l = tkinter.Label(text='Wydajność_Sprężarki_Wymagana ' + PC_Wydajnosc_Sprezarki_Wymagana + ' % ').place(x=0, y=260)
         l = tkinter.Label(text='Wydajność_Sprężarki_Aktualna ' + PC_Wydajnosc_Sprezarki_Aktualna + ' % ').place(x=0, y=280)
         l = tkinter.Label(text='Aktualne_Obroty_Sprężarki ' + PC_Aktualne_Obroty_Sprezarki + ' RPM ').place(x=0, y=300)
