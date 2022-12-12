@@ -72,7 +72,7 @@ def sprsun_modbus():
             if c.is_open():
 
 
-                regs = c.read_holding_registers(188,24) #0x03
+                regs = c.read_holding_registers(188,125) #0x03
                 # tu się zaczynają rejestry z danymi biezacymi w pompie ciepla adres 188 ilosc 30 rejestrów modbus
                # regs1 = c.read_holding_registers(0, 24)
                # regs1 = c.read_input_registers(1,125)  #0x04
@@ -143,6 +143,15 @@ def sprsun_modbus():
         PC_Przegrzanie_na_Ssaniu = str(data_converter((regs[23])) / 10)
         Ogrzew_TempZewn_X1 = str(data_converter((regs[92])) / 10)
         Ogrzew_TempWody_Y1 = str(data_converter((regs[103])) / 10)
+
+        Ogrzew_TempZewn_X2 = str(data_converter((regs[92])) / 10)
+        Ogrzew_TempWody_Y2 = str(data_converter((regs[103])) / 10)
+
+        Ogrzew_TempZewn_X3 = str(data_converter((regs[92])) / 10)
+        Ogrzew_TempWody_Y3 = str(data_converter((regs[103])) / 10)
+
+        Ogrzew_TempZewn_X4 = str(data_converter((regs[92])) / 10)
+        Ogrzew_TempWody_Y4 = str(data_converter((regs[103])) / 10)
 
         # ----------------------------------------------------------------------------------------------
         # sprawdzenie czy nie ma przeklamań w odczycie z pompy potrafi czasami odczytywac same zera
@@ -272,6 +281,7 @@ def funkcjaPrzycisku4():
 
 #poczatek programu
 
+
 root = tkinter.Tk()
 root.geometry('600x680')
 root.title('SPRSUN_MODBUS')
@@ -299,17 +309,18 @@ for i in range(5):
         l.grid(row=i, column=j, sticky=NSEW)
 '''
 
-Ogrzew_TempZewn_X1 = str(data_converter((regs[92])) / 10)
-Ogrzew_TempWody_Y1 = str(data_converter((regs[103])) / 10)
 
+
+sprsun_modbus()
 
 l = tkinter.Label(text='           Krzywa CO            ', relief=RIDGE,).place(x=0, y=360)
 l = tkinter.Label(text='T.zewnętrzna ', relief=RIDGE,).place(x=0, y=380)
 l = tkinter.Label(text='T.zadana ', relief=RIDGE,).place(x=76, y=380)
 
 l = tkinter.Label(text='X1:', relief=RIDGE,).place(x=0, y=400)
-l = tkinter.Label(text='---', relief=RIDGE,).place(x=20, y=400)
+l = tkinter.Label(text= Ogrzew_TempZewn_X1, relief=RIDGE,).place(x=20, y=400)
 l = tkinter.Label(text='Y1:', relief=RIDGE,).place(x=76, y=400)
+l = tkinter.Label(text= Ogrzew_TempWody_Y1, relief=RIDGE,).place(x=96, y=400)
 
 l = tkinter.Label(text='X2:', relief=RIDGE,).place(x=0, y=420)
 l = tkinter.Label(text='Y2:', relief=RIDGE,).place(x=76, y=420)
