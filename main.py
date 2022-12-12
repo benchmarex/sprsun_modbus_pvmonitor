@@ -20,7 +20,7 @@ Sprsun heat pump, print in window, and send as rest API to pvmonitor.com every 3
 def data_converter(param):  # funkcja sprawdzajaca czy dodatnia czy ujemna
 
     if param > 0x8000:  # jest na minusie wartości
-        par = param - 0xFFFF
+        par = param - 0x10000
         return par
     par = param
     return par
