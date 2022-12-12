@@ -149,26 +149,26 @@ def sprsun_modbus():
 
         spr_stat_Pc_on_off()
 
-        l = tkinter.Label(text='PC_Temp_Powrot ' + B1_PC_Temp_Powrot + '°C ', fg="blue").place(x=0, y=0)
-        l = tkinter.Label(text='PC_Temp_Zasilanie ' + B2_PC_Temp_Zasilanie + '°C ').place(x=0, y=20)
-        l = tkinter.Label(text='PC_Temp_Zewnetrzna ' + B3_PC_Temp_Zewnetrzna + '°C ').place(x=0, y=40)
-        l = tkinter.Label(text='PC_Temp_Czynnika_Sprezanie ' + B4_PC_Temp_Czynnika_Sprezanie + '°C ').place(x=0,
+        l = tkinter.Label(text='Temp_Powrót ' + B1_PC_Temp_Powrot + '°C ', fg="blue").place(x=0, y=0)
+        l = tkinter.Label(text='Temp_Zasilanie ' + B2_PC_Temp_Zasilanie + '°C ').place(x=0, y=20)
+        l = tkinter.Label(text='Temp_Zewnętrzna ' + B3_PC_Temp_Zewnetrzna + '°C ').place(x=0, y=40)
+        l = tkinter.Label(text='Temp_Czynnika_Sprężania ' + B4_PC_Temp_Czynnika_Sprezanie + '°C ').place(x=0,
                                                                                                               y=60)
-        l = tkinter.Label(text='PC_Temp_Ssanie ' + B5_PC_Temp_Ssanie + '°C ').place(x=0, y=80)
-        l = tkinter.Label(text='PC_Cisnienie_Sprezania ' + B6_PC_Cisnienie_Sprezania + ' BAR ').place(x=0, y=100)
-        l = tkinter.Label(text='PC_Cisnienie_Ssania ' + B7_PC_Cisnienie_Ssania + ' BAR ').place(x=0, y=120)
-        l = tkinter.Label(text='PC_Temp_CWU ' + B8_PC_Temp_CWU + '°C ').place(x=0, y=140)
-        l = tkinter.Label(text='PC_Temp_Parownika1 ' + B9_PC_Temp_Parownika1 + '°C ').place(x=0, y=160)
+        l = tkinter.Label(text='Temp_Ssania ' + B5_PC_Temp_Ssanie + '°C ').place(x=0, y=80)
+        l = tkinter.Label(text='Ciśnienie_Sprężania ' + B6_PC_Cisnienie_Sprezania + ' BAR ').place(x=0, y=100)
+        l = tkinter.Label(text='Ciśnienie_Ssania ' + B7_PC_Cisnienie_Ssania + ' BAR ').place(x=0, y=120)
+        l = tkinter.Label(text='Temp_CWU ' + B8_PC_Temp_CWU + '°C ').place(x=0, y=140)
+        l = tkinter.Label(text='Temp_Parownika1 ' + B9_PC_Temp_Parownika1 + '°C ').place(x=0, y=160)
 
 
-        l = tkinter.Label(text='PC_Temp_Parownika2 ' + B19_PC_Temp_Parownika2 + '°C ').place(x=0, y=180)
-        l = tkinter.Label(text='PC_Wentylator_Obroty ' + Y1_PC_Wentylator_Obroty + ' RPM ').place(x=0, y=200)
-        l = tkinter.Label(text='PC_Pompa_Obiegowa ' + Y3_PC_Pompa_Obiegowa + ' % ').place(x=0, y=220)
+        l = tkinter.Label(text='Temp_Parownika2 ' + B19_PC_Temp_Parownika2 + '°C ').place(x=0, y=180)
+        l = tkinter.Label(text='Obroty_Wentylatora ' + Y1_PC_Wentylator_Obroty + ' RPM ').place(x=0, y=200)
+        l = tkinter.Label(text='Wysterowanie_Pompy_Obiegowej ' + Y3_PC_Pompa_Obiegowa + ' % ').place(x=0, y=220)
         l = tkinter.Label(text='Wydajnosc_Sprezarki_Wymagana ' + PC_Wydajnosc_Sprezarki_Wymagana + ' % ').place(x=0, y=240)
-        l = tkinter.Label(text='Wydajnosc_Sprezarki_Wymagana ' + PC_Wydajnosc_Sprezarki_Wymagana + ' % ').place(x=0, y=260)
-        l = tkinter.Label(text='Wydajnosc_Sprezarki_Aktualna ' + PC_Wydajnosc_Sprezarki_Aktualna + ' % ').place(x=0, y=280)
-        l = tkinter.Label(text='Aktualne_Obroty_Sprezarki ' + PC_Aktualne_Obroty_Sprezarki + ' RPM ').place(x=0, y=300)
-        l = tkinter.Label(text='Przegrzanie_na_Sprezaniu ' + PC_Przegrzanie_na_Sprezaniu + '°C ').place(x=0, y=320)
+        l = tkinter.Label(text='Wydajnosc_Sprężarki_Wymagana ' + PC_Wydajnosc_Sprezarki_Wymagana + ' % ').place(x=0, y=260)
+        l = tkinter.Label(text='Wydajnosc_Sprężarki_Aktualna ' + PC_Wydajnosc_Sprezarki_Aktualna + ' % ').place(x=0, y=280)
+        l = tkinter.Label(text='Aktualne_Obroty_Sprężarki ' + PC_Aktualne_Obroty_Sprezarki + ' RPM ').place(x=0, y=300)
+        l = tkinter.Label(text='Przegrzanie_na_Sprężaniu ' + PC_Przegrzanie_na_Sprezaniu + '°C ').place(x=0, y=320)
         l = tkinter.Label(text='Przegrzanie_na_Ssaniu ' + PC_Przegrzanie_na_Ssaniu + '°C ').place(x=0, y=340)
 
         if B2_PC_Temp_Zas < 6 and B1_PC_Temp_Pow < 6 or B8_PC_Temp_CW < 6 or PC_Aktualne_Obroty_Spr < 0:
@@ -222,10 +222,6 @@ def send_pvmon():
     # 11 temp zasilania z PC
 
 
-root = tkinter.Tk()
-root.geometry('600x480')
-l = tkinter.Label(root, text='SPRSUN_MODBUS')
-
 
 
 def spr_stat_Pc_on_off():    #sprawdza czy bit wskazujacy na prace pompy jest ustawiony i wyswietla status i zmienia napis na przycisku
@@ -267,6 +263,12 @@ def funkcjaPrzycisku4():
   #  time.sleep(1)
     print('koniec')
     sys.exit(0)
+
+
+root = tkinter.Tk()
+root.geometry('600x480')
+root.title('SPRSUN_MODBUS')
+
 
 b=tkinter.Button(root, text='Wyłącz Pompę',width=15, bg='red', fg='white', command=funkcjaPrzycisku0)
 b.place(x=450,y=50)
