@@ -38,9 +38,9 @@ def pobranie_czasu():
 
 #pobranie i obrobka danych z pompy z modbus
 def sprsun_modbus():
-    ilosc_prob = 5  # tyle prob pobrania danych z modbus jesli wystapą jakis przeklamania opisane w w warunku ponizej
+    #ilosc_prob = 5  # tyle prob pobrania danych z modbus jesli wystapą jakis przeklamania opisane w w warunku ponizej
 
-    for i in range(ilosc_prob):
+  #  for i in range(ilosc_prob):
         global c
         c = ModbusClient()
 
@@ -91,7 +91,7 @@ def sprsun_modbus():
                    print("modbus registers values " + str(regs))
 
 
-                regs1 = c.read_holding_registers(0, 125)
+                regs1 = c.read_holding_registers(313, 125)
                 # tu się zaczynają rejestry z danymi biezacymi w pompie ciepla adres 188 ilosc 30 rejestrów modbus
 
                 # if success display registers
@@ -156,16 +156,20 @@ def sprsun_modbus():
         Ogrzew_TempWody_Y3 = str(data_converter((regs[105])) / 10)
 
         Ogrzew_TempZewn_X4 = str(data_converter((regs[92])) / 10)
-        Ogrzew_TempWody_Y4 = str(data_converter((regs[106])) / 10)   #jest problem nie wiadomo ktory rejestr tyczy sie Y4 dla CO :D
+        Ogrzew_TempWody_Y4 = str(data_converter((regs1[24])) / 10)   #uwaga z innego banku
 
+
+        '''
         # ----------------------------------------------------------------------------------------------
         # sprawdzenie czy nie ma przeklamań w odczycie z pompy potrafi czasami odczytywac same zera
         # jesli tak jest zakonczony program i kolejna proba przy nastepnym wywolaniu spelnione  warunki
-
+        
         B2_PC_Temp_Zas = float(B2_PC_Temp_Zasilanie)
         B1_PC_Temp_Pow = float(B1_PC_Temp_Powrot)
         B8_PC_Temp_CW = float(B8_PC_Temp_CWU)
         PC_Aktualne_Obroty_Spr = float(PC_Aktualne_Obroty_Sprezarki)
+        '''
+
 
         spr_stat_Pc_on_off()
 
@@ -191,17 +195,17 @@ def sprsun_modbus():
         l = tkinter.Label(text='Przegrzanie_na_Sprężaniu ' + PC_Przegrzanie_na_Sprezaniu + '°C ').place(x=0, y=320)
         l = tkinter.Label(text='Przegrzanie_na_Ssaniu ' + PC_Przegrzanie_na_Ssaniu + '°C ').place(x=0, y=340)
 
-        if B2_PC_Temp_Zas < 6 and B1_PC_Temp_Pow < 6 or B8_PC_Temp_CW < 6 or PC_Aktualne_Obroty_Spr < 0:
-            print('Wadliwe dane z MODBUS - ponowne pobranie' + str(i))
-            time.sleep(5)
-        else:
-            print('dobre dane z MODBUS - przerwanie petli powtorzeń')
-            break
+   #     if B2_PC_Temp_Zas < 6 and B1_PC_Temp_Pow < 6 or B8_PC_Temp_CW < 6 or PC_Aktualne_Obroty_Spr < 0:
+    #        print('Wadliwe dane z MODBUS - ponowne pobranie' + str(i))
+   #         time.sleep(5)
+   #     else:
+  #          print('dobre dane z MODBUS - przerwanie petli powtorzeń')
+  #          break
 
-    if i >= (ilosc_prob - 1):
-        print('Wadliwe dane z MODBUS - zamknięcie programu')
+   # if i >= (ilosc_prob - 1):
+  #      print('Wadliwe dane z MODBUS - zamknięcie programu')
      #   sys.exit()
-    return ()
+  #  return ()
 
 
 #wysyłka do Pvmonitor
