@@ -3,6 +3,9 @@ import datetime
 import requests
 import json
 import tkinter
+#from tkinter import simpledialog
+
+from tkinter import *
 
 from pyModbusTCP.client import ModbusClient
 import time
@@ -115,6 +118,8 @@ def sprsun_modbus():
         global B1_PC_Temp_Pow
         global B8_PC_Temp_CW
         global PC_Aktualne_Obroty_Spr
+        global Ogrzew_TempZewn_X1
+        global Ogrzew_TempWody_Y1
 
 
 
@@ -136,7 +141,8 @@ def sprsun_modbus():
         PC_Aktualne_Obroty_Sprezarki = str(data_converter((regs[17])) / 10)
         PC_Przegrzanie_na_Sprezaniu = str(data_converter((regs[20])) / 10)
         PC_Przegrzanie_na_Ssaniu = str(data_converter((regs[23])) / 10)
-     
+        Ogrzew_TempZewn_X1 = str(data_converter((regs[92])) / 10)
+        Ogrzew_TempWody_Y1 = str(data_converter((regs[103])) / 10)
 
         # ----------------------------------------------------------------------------------------------
         # sprawdzenie czy nie ma przeklamań w odczycie z pompy potrafi czasami odczytywac same zera
@@ -149,7 +155,7 @@ def sprsun_modbus():
 
         spr_stat_Pc_on_off()
 
-        l = tkinter.Label(text='Temp_Powrót ' + B1_PC_Temp_Powrot + '°C ', fg="blue").place(x=0, y=0)
+        l = tkinter.Label(text='Temp_Powrót ' + B1_PC_Temp_Powrot + '°C ', relief=RIDGE, fg="blue").place(x=0, y=0)
         l = tkinter.Label(text='Temp_Zasilanie ' + B2_PC_Temp_Zasilanie + '°C ').place(x=0, y=20)
         l = tkinter.Label(text='Temp_Zewnętrzna ' + B3_PC_Temp_Zewnetrzna + '°C ').place(x=0, y=40)
         l = tkinter.Label(text='Temp_Czynnika_Sprężania ' + B4_PC_Temp_Czynnika_Sprezanie + '°C ').place(x=0,
@@ -164,9 +170,9 @@ def sprsun_modbus():
         l = tkinter.Label(text='Temp_Parownika2 ' + B19_PC_Temp_Parownika2 + '°C ').place(x=0, y=180)
         l = tkinter.Label(text='Obroty_Wentylatora ' + Y1_PC_Wentylator_Obroty + ' RPM ').place(x=0, y=200)
         l = tkinter.Label(text='Wysterowanie_Pompy_Obiegowej ' + Y3_PC_Pompa_Obiegowa + ' % ').place(x=0, y=220)
-        l = tkinter.Label(text='Wydajnosc_Sprezarki_Wymagana ' + PC_Wydajnosc_Sprezarki_Wymagana + ' % ').place(x=0, y=240)
-        l = tkinter.Label(text='Wydajnosc_Sprężarki_Wymagana ' + PC_Wydajnosc_Sprezarki_Wymagana + ' % ').place(x=0, y=260)
-        l = tkinter.Label(text='Wydajnosc_Sprężarki_Aktualna ' + PC_Wydajnosc_Sprezarki_Aktualna + ' % ').place(x=0, y=280)
+      #  l = tkinter.Label(text='Wydajność_Sprężarki_Wymagana ' + PC_Wydajnosc_Sprezarki_Wymagana + ' % ').place(x=0, y=240)
+        l = tkinter.Label(text='Wydajność_Sprężarki_Wymagana ' + PC_Wydajnosc_Sprezarki_Wymagana + ' % ').place(x=0, y=260)
+        l = tkinter.Label(text='Wydajność_Sprężarki_Aktualna ' + PC_Wydajnosc_Sprezarki_Aktualna + ' % ').place(x=0, y=280)
         l = tkinter.Label(text='Aktualne_Obroty_Sprężarki ' + PC_Aktualne_Obroty_Sprezarki + ' RPM ').place(x=0, y=300)
         l = tkinter.Label(text='Przegrzanie_na_Sprężaniu ' + PC_Przegrzanie_na_Sprezaniu + '°C ').place(x=0, y=320)
         l = tkinter.Label(text='Przegrzanie_na_Ssaniu ' + PC_Przegrzanie_na_Ssaniu + '°C ').place(x=0, y=340)
@@ -264,9 +270,10 @@ def funkcjaPrzycisku4():
     print('koniec')
     sys.exit(0)
 
+#poczatek programu
 
 root = tkinter.Tk()
-root.geometry('600x480')
+root.geometry('600x680')
 root.title('SPRSUN_MODBUS')
 
 
@@ -282,12 +289,55 @@ b.place(x=450,y=200)
 b=tkinter.Button(root, text='Wyjście',width=15, bg='black', fg='white', command=funkcjaPrzycisku4)
 b.place(x=450,y=250)
 
+
+
+
+'''
+for i in range(5):
+    for j in range(4):
+        l = Label(text='%d.%d' % (i, j), relief=RIDGE)
+        l.grid(row=i, column=j, sticky=NSEW)
+'''
+
+Ogrzew_TempZewn_X1 = str(data_converter((regs[92])) / 10)
+Ogrzew_TempWody_Y1 = str(data_converter((regs[103])) / 10)
+
+
+l = tkinter.Label(text='           Krzywa CO            ', relief=RIDGE,).place(x=0, y=360)
+l = tkinter.Label(text='T.zewnętrzna ', relief=RIDGE,).place(x=0, y=380)
+l = tkinter.Label(text='T.zadana ', relief=RIDGE,).place(x=76, y=380)
+
+l = tkinter.Label(text='X1:', relief=RIDGE,).place(x=0, y=400)
+l = tkinter.Label(text='---', relief=RIDGE,).place(x=20, y=400)
+l = tkinter.Label(text='Y1:', relief=RIDGE,).place(x=76, y=400)
+
+l = tkinter.Label(text='X2:', relief=RIDGE,).place(x=0, y=420)
+l = tkinter.Label(text='Y2:', relief=RIDGE,).place(x=76, y=420)
+
+l = tkinter.Label(text='X3:', relief=RIDGE,).place(x=0, y=440)
+l = tkinter.Label(text='Y3:', relief=RIDGE,).place(x=76, y=440)
+
+l = tkinter.Label(text='X4:', relief=RIDGE,).place(x=0, y=460)
+l = tkinter.Label(text='Y4:', relief=RIDGE,).place(x=76, y=460)
+
+
+
+
+
+e = tkinter.Entry(text='pole ' ).place(x=0, y=300)
+#Label(text=c, relief=RIDGE,  width=25).grid(row=30, column=0)
+#Entry(bg=c,   relief=SUNKEN, width=25).grid(row=30, column=1)
+
+
+#var = simpledialog.askstring("Name prompt", "enter your name")
+#print (var)
+
 def timer1():   #co ile ms ma odczytywać dane z modbus
   #  print(datetime.datetime.now())
     sprsun_modbus()
-    root.after(3000, timer1)
+    root.after(10000, timer1)
 
-root.after(3000, timer1)
+root.after(10000, timer1)
 
 def timer2():                   #co ile ms ma wysyłać do pvmonitor
   #  print(datetime.datetime.now())
