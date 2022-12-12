@@ -91,12 +91,12 @@ def sprsun_modbus():
                    print("modbus registers values " + str(regs))
 
 
-                #regs1 = c.read_holding_registers(0, 125)
+                regs1 = c.read_holding_registers(0, 125)
                 # tu się zaczynają rejestry z danymi biezacymi w pompie ciepla adres 188 ilosc 30 rejestrów modbus
 
                 # if success display registers
-                #if regs1:
-              #      print("modbus registers1 values " + str(regs1))
+                if regs1:
+                   print("modbus registers1 values " + str(regs1))
 
         global B1_PC_Temp_Powrot
         global B2_PC_Temp_Zasilanie
@@ -120,8 +120,12 @@ def sprsun_modbus():
         global PC_Aktualne_Obroty_Spr
         global Ogrzew_TempZewn_X1
         global Ogrzew_TempWody_Y1
-
-
+        global Ogrzew_TempZewn_X2
+        global Ogrzew_TempWody_Y2
+        global Ogrzew_TempZewn_X3
+        global Ogrzew_TempWody_Y3
+        global Ogrzew_TempZewn_X4
+        global Ogrzew_TempWody_Y4
 
         B1_PC_Temp_Powrot = str(data_converter((regs[0])) / 10)
         #print('B1_PC_Temp_Powrot '+B1_PC_Temp_Powrot +'°C')
@@ -141,17 +145,18 @@ def sprsun_modbus():
         PC_Aktualne_Obroty_Sprezarki = str(data_converter((regs[17])) / 10)
         PC_Przegrzanie_na_Sprezaniu = str(data_converter((regs[20])) / 10)
         PC_Przegrzanie_na_Ssaniu = str(data_converter((regs[23])) / 10)
-        Ogrzew_TempZewn_X1 = str(data_converter((regs[92])) / 10)
+
+        Ogrzew_TempZewn_X1 = str(data_converter((regs[92])) / 10)   #CO krzywa grzewcza
         Ogrzew_TempWody_Y1 = str(data_converter((regs[103])) / 10)
 
-        Ogrzew_TempZewn_X2 = str(data_converter((regs[92])) / 10)
-        Ogrzew_TempWody_Y2 = str(data_converter((regs[103])) / 10)
+        Ogrzew_TempZewn_X2 = str(data_converter((regs[93])) / 10)
+        Ogrzew_TempWody_Y2 = str(data_converter((regs[104])) / 10)
 
-        Ogrzew_TempZewn_X3 = str(data_converter((regs[92])) / 10)
-        Ogrzew_TempWody_Y3 = str(data_converter((regs[103])) / 10)
+        Ogrzew_TempZewn_X3 = str(data_converter((regs[94])) / 10)
+        Ogrzew_TempWody_Y3 = str(data_converter((regs[105])) / 10)
 
         Ogrzew_TempZewn_X4 = str(data_converter((regs[92])) / 10)
-        Ogrzew_TempWody_Y4 = str(data_converter((regs[103])) / 10)
+        Ogrzew_TempWody_Y4 = str(data_converter((regs[106])) / 10)   #jest problem nie wiadomo ktory rejestr tyczy sie Y4 dla CO :D
 
         # ----------------------------------------------------------------------------------------------
         # sprawdzenie czy nie ma przeklamań w odczycie z pompy potrafi czasami odczytywac same zera
@@ -323,19 +328,25 @@ l = tkinter.Label(text='Y1:', relief=RIDGE,).place(x=76, y=400)
 l = tkinter.Label(text= Ogrzew_TempWody_Y1, relief=RIDGE,).place(x=96, y=400)
 
 l = tkinter.Label(text='X2:', relief=RIDGE,).place(x=0, y=420)
+l = tkinter.Label(text= Ogrzew_TempZewn_X2, relief=RIDGE,).place(x=20, y=420)
 l = tkinter.Label(text='Y2:', relief=RIDGE,).place(x=76, y=420)
+l = tkinter.Label(text= Ogrzew_TempWody_Y2, relief=RIDGE,).place(x=96, y=420)
 
 l = tkinter.Label(text='X3:', relief=RIDGE,).place(x=0, y=440)
+l = tkinter.Label(text= Ogrzew_TempZewn_X3, relief=RIDGE,).place(x=20, y=440)
 l = tkinter.Label(text='Y3:', relief=RIDGE,).place(x=76, y=440)
+l = tkinter.Label(text= Ogrzew_TempWody_Y3, relief=RIDGE,).place(x=96, y=440)
 
 l = tkinter.Label(text='X4:', relief=RIDGE,).place(x=0, y=460)
+l = tkinter.Label(text= Ogrzew_TempZewn_X4, relief=RIDGE,).place(x=20, y=460)
 l = tkinter.Label(text='Y4:', relief=RIDGE,).place(x=76, y=460)
+l = tkinter.Label(text= Ogrzew_TempWody_Y4, relief=RIDGE,).place(x=96, y=460)
 
 
 
 
 
-e = tkinter.Entry(text='pole ' ).place(x=0, y=300)
+#e = tkinter.Entry(text='pole ' ).place(x=0, y=300)
 #Label(text=c, relief=RIDGE,  width=25).grid(row=30, column=0)
 #Entry(bg=c,   relief=SUNKEN, width=25).grid(row=30, column=1)
 
