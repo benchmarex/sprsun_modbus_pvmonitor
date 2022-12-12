@@ -155,7 +155,7 @@ def sprsun_modbus():
         Ogrzew_TempZewn_X3 = str(data_converter((regs[94])) / 10)
         Ogrzew_TempWody_Y3 = str(data_converter((regs[105])) / 10)
 
-        Ogrzew_TempZewn_X4 = str(data_converter((regs[92])) / 10)
+        Ogrzew_TempZewn_X4 = str(data_converter((regs[95])) / 10)
         Ogrzew_TempWody_Y4 = str(data_converter((regs1[24])) / 10)   #uwaga z innego banku
 
 
