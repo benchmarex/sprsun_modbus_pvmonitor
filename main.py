@@ -355,7 +355,7 @@ l = tkinter.Label(text='Y4:', relief=RIDGE,).place(x=76, y=460)
 l = tkinter.Label(text= Ogrzew_TempWody_Y4, relief=RIDGE,).place(x=96, y=460)
 
 
-
+#   równanie do wyliczenia temperatury wedlug krzywej Y=((Y2-Y1)/(X2-X1))*(X3-X1)+Y1
 
 
 #e = tkinter.Entry(text='pole ' ).place(x=0, y=300)
