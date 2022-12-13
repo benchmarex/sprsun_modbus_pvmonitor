@@ -83,7 +83,7 @@ def heat_curve_CO():  #stworzenie tabelki z danymi z krzywej grzewcze j
 
     # zaokrąglenie do 2 miejsc po przecinku
     global Ys
-    Ys = str(round(Y, 2))
+    Ys = str(round(Y, 1))
 
     # wydruk na ekranie w oknie wartości zadanej
    # l = tkinter.Label(text='Temp_powrotu_CO_zadana:  ' + Ys + '°C  ', relief=RIDGE, fg="red").place(x=0, y=240)
