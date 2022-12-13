@@ -143,7 +143,7 @@ def sprsun_modbus():
         B7_PC_Cisnienie_Ssania = str((regs[6]) / 10)
         B8_PC_Temp_CWU = str(data_converter((regs[7])) / 10)
         B9_PC_Temp_Parownika1 = str(data_converter((regs[8])) / 10)  # mogą być ujemne musi przejśc funkcje sprawdzajaca czy dodatnia czy ujemna
-        B19_PC_Temp_Parownika2 = str(data_converter((regs[18])) / 10)  # mogą być ujemne
+        B19_PC_Temp_Parownika2 = str(data_converter((regs[18])) / 10)
         Y1_PC_Wentylator_Obroty = str((regs[9]))
         Y3_PC_Pompa_Obiegowa = str((regs[10]) / 10)
         PC_Wydajnosc_Sprezarki_Wymagana = str((regs[15]) / 10)
@@ -339,6 +339,7 @@ l = tkinter.Label(text= Ogrzew_TempZewn_X1, relief=RIDGE,).place(x=20, y=400)
 l = tkinter.Label(text='Y1:', relief=RIDGE,).place(x=76, y=400)
 l = tkinter.Label(text= Ogrzew_TempWody_Y1, relief=RIDGE,).place(x=96, y=400)
 
+
 l = tkinter.Label(text='X2:', relief=RIDGE,).place(x=0, y=420)
 l = tkinter.Label(text= Ogrzew_TempZewn_X2, relief=RIDGE,).place(x=20, y=420)
 l = tkinter.Label(text='Y2:', relief=RIDGE,).place(x=76, y=420)
@@ -355,7 +356,24 @@ l = tkinter.Label(text='Y4:', relief=RIDGE,).place(x=76, y=460)
 l = tkinter.Label(text= Ogrzew_TempWody_Y4, relief=RIDGE,).place(x=96, y=460)
 
 
-#   równanie do wyliczenia temperatury wedlug krzywej Y=((Y2-Y1)/(X2-X1))*(X3-X1)+Y1
+#   równanie do wyliczenia temperatury wedlug krzywej Y=((Y2-Y1)/(X2-X1))*(T.ZEWN-X1)+Y1
+
+
+Temp_Zewnetrzna=float(B3_PC_Temp_Zewnetrzna)
+X1=float(Ogrzew_TempZewn_X1)
+X2=Ogrzew_TempZewn_X2
+X3=Ogrzew_TempZewn_X3
+X4=Ogrzew_TempZewn_X4
+
+Y1=Ogrzew_TempWody_Y1
+Y2=Ogrzew_TempWody_Y2
+Y3=Ogrzew_TempWody_Y3
+Y4=Ogrzew_TempWody_Y4
+
+Y12=((Y2-Y1)/(X2-X1))*(Temp_Zewnetrzna-X1)+Y1
+#Y23=((Y2-Y1)/(X2-X1))*(X3-X1)+Y1
+#Y34=((Y2-Y1)/(X2-X1))*(X3-X1)+Y1
+print(Y12)
 
 
 #e = tkinter.Entry(text='pole ' ).place(x=0, y=300)
