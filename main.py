@@ -31,7 +31,7 @@ def pobranie_czasu():
     pm_solartime = teraz.strftime("%Y-%m-%dT%H:%M:%S")
     return (pm_solartime)
 
-def heat_curve_CO():  #stworzenie tabelki z danymi z krzywej grzewczej
+def heat_curve_CO():  #stworzenie tabelki z danymi z krzywej grzewcze j
     l = tkinter.Label(text='           Krzywa CO            ', relief=RIDGE, ).place(x=0, y=360)
     l = tkinter.Label(text='T.zewnętrzna ', relief=RIDGE, ).place(x=0, y=380)
     l = tkinter.Label(text='T.zadana ', relief=RIDGE, ).place(x=76, y=380)
