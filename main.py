@@ -31,6 +31,78 @@ def pobranie_czasu():
     pm_solartime = teraz.strftime("%Y-%m-%dT%H:%M:%S")
     return (pm_solartime)
 
+def heat_curve_CO():  #stworzenie tabelki z danymi z krzywej grzewczej
+    l = tkinter.Label(text='           Krzywa CO            ', relief=RIDGE, ).place(x=0, y=360)
+    l = tkinter.Label(text='T.zewnętrzna ', relief=RIDGE, ).place(x=0, y=380)
+    l = tkinter.Label(text='T.zadana ', relief=RIDGE, ).place(x=76, y=380)
+
+    l = tkinter.Label(text='X1:', relief=RIDGE, ).place(x=0, y=400)
+    l = tkinter.Label(text=Ogrzew_TempZewn_X1, relief=RIDGE, ).place(x=20, y=400)
+    l = tkinter.Label(text='Y1:', relief=RIDGE, ).place(x=76, y=400)
+    l = tkinter.Label(text=Ogrzew_TempWody_Y1, relief=RIDGE, ).place(x=96, y=400)
+
+    l = tkinter.Label(text='X2:', relief=RIDGE, ).place(x=0, y=420)
+    l = tkinter.Label(text=Ogrzew_TempZewn_X2, relief=RIDGE, ).place(x=20, y=420)
+    l = tkinter.Label(text='Y2:', relief=RIDGE, ).place(x=76, y=420)
+    l = tkinter.Label(text=Ogrzew_TempWody_Y2, relief=RIDGE, ).place(x=96, y=420)
+
+    l = tkinter.Label(text='X3:', relief=RIDGE, ).place(x=0, y=440)
+    l = tkinter.Label(text=Ogrzew_TempZewn_X3, relief=RIDGE, ).place(x=20, y=440)
+    l = tkinter.Label(text='Y3:', relief=RIDGE, ).place(x=76, y=440)
+    l = tkinter.Label(text=Ogrzew_TempWody_Y3, relief=RIDGE, ).place(x=96, y=440)
+
+    l = tkinter.Label(text='X4:', relief=RIDGE, ).place(x=0, y=460)
+    l = tkinter.Label(text=Ogrzew_TempZewn_X4, relief=RIDGE, ).place(x=20, y=460)
+    l = tkinter.Label(text='Y4:', relief=RIDGE, ).place(x=76, y=460)
+    l = tkinter.Label(text=Ogrzew_TempWody_Y4, relief=RIDGE, ).place(x=96, y=460)
+
+    #   równanie do wyliczenia temperatury wedlug krzywej Y=((Y2-Y1)/(X2-X1))*(T.ZEWN-X1)+Y1
+    # przypisanie zmeinnych tak żeby łatwiej podstawić pod równanie
+
+    Temp_Zewnetrzna = float(B3_PC_Temp_Zewnetrzna)  # zamiana na float zeby zrobić obliczenia temp zewnetrznej
+    X1 = float(Ogrzew_TempZewn_X1)
+    X2 = float(Ogrzew_TempZewn_X2)
+    X3 = float(Ogrzew_TempZewn_X3)
+    X4 = float(Ogrzew_TempZewn_X4)
+
+    Y1 = float(Ogrzew_TempWody_Y1)
+    Y2 = float(Ogrzew_TempWody_Y2)
+    Y3 = float(Ogrzew_TempWody_Y3)
+    Y4 = float(Ogrzew_TempWody_Y4)
+
+    # określenie z ktorego przedziału krzywej należy korzystac
+
+    if Temp_Zewnetrzna < X2:  # Y12
+        Y = ((Y2 - Y1) / (X2 - X1)) * (Temp_Zewnetrzna - X1) + Y1
+
+    elif Temp_Zewnetrzna < X3:  # Y23
+        Y = ((Y3 - Y2) / (X3 - X2)) * (Temp_Zewnetrzna - X2) + Y2
+
+    else:
+        Y = ((Y4 - Y3) / (X4 - X3)) * (Temp_Zewnetrzna - X3) + Y3  # Y34
+
+    # zaokrąglenie do 2 miejsc po przecinku
+    global Ys
+    Ys = str(round(Y, 2))
+
+    # wydruk na ekranie w oknie wartości zadanej
+   # l = tkinter.Label(text='Temp_powrotu_CO_zadana:  ' + Ys + '°C  ', relief=RIDGE, fg="red").place(x=0, y=240)
+
+    '''
+    Y12 = ((Y2 - Y1) / (X2 - X1)) * (Temp_Zewnetrzna - X1) + Y1
+    Y23=((Y3-Y2)/(X3-X2))*(Temp_Zewnetrzna-X2)+Y2
+    Y34=((Y4-Y3)/(X4-X3))*(Temp_Zewnetrzna-X3)+Y3
+    print(Y12, Y23, Y34)
+    print(Ys)
+    '''
+
+    # e = tkinter.Entry(text='pole ' ).place(x=0, y=300)
+    # Label(text=c, relief=RIDGE,  width=25).grid(row=30, column=0)
+    # Entry(bg=c,   relief=SUNKEN, width=25).grid(row=30, column=1)
+
+    # var = simpledialog.askstring("Name prompt", "enter your name")
+    # print (var)
+
 
 
 
@@ -134,6 +206,8 @@ def sprsun_modbus():
         global PC_Temp_CO_Zadana
         #global Ys
 
+
+
         B1_PC_Temp_Powrot = str(data_converter((regs[0])) / 10)
         #print('B1_PC_Temp_Powrot '+B1_PC_Temp_Powrot +'°C')
         B2_PC_Temp_Zasilanie = str(data_converter((regs[1])) / 10)
@@ -180,13 +254,17 @@ def sprsun_modbus():
         '''
 
 
+        heat_curve_CO()
+
         spr_stat_Pc_on_off()
 
         l = tkinter.Label(text='Temp_Powrót ' + B1_PC_Temp_Powrot + '°C ', relief=RIDGE, fg="blue").place(x=0, y=0)
         l = tkinter.Label(text='Temp_Zasilanie ' + B2_PC_Temp_Zasilanie + '°C ').place(x=0, y=20)
         l = tkinter.Label(text='Temp_Zewnętrzna ' + B3_PC_Temp_Zewnetrzna + '°C ').place(x=0, y=40)
-        l = tkinter.Label(text='Temp_Czynnika_Sprężania ' + B4_PC_Temp_Czynnika_Sprezanie + '°C ').place(x=0,
-                                                                                                              y=60)
+
+
+        l = tkinter.Label(text='Temp powrotu CO zadana:  ' + Ys + '°C  ', relief=RIDGE, fg="red").place(x=0, y=60)
+        # l = tkinter.Label(text='Temp_Czynnika_Sprężania ' + B4_PC_Temp_Czynnika_Sprezanie + '°C ').place(x=0,y=60)
         l = tkinter.Label(text='Temp_Ssania ' + B5_PC_Temp_Ssanie + '°C ').place(x=0, y=80)
         l = tkinter.Label(text='Ciśnienie_Sprężania ' + B6_PC_Cisnienie_Sprezania + ' BAR ').place(x=0, y=100)
         l = tkinter.Label(text='Ciśnienie_Ssania ' + B7_PC_Cisnienie_Ssania + ' BAR ').place(x=0, y=120)
@@ -197,7 +275,8 @@ def sprsun_modbus():
         l = tkinter.Label(text='Temp_Parownika2 ' + B19_PC_Temp_Parownika2 + '°C ').place(x=0, y=180)
         l = tkinter.Label(text='Obroty_Wentylatora ' + Y1_PC_Wentylator_Obroty + ' RPM ').place(x=0, y=200)
         l = tkinter.Label(text='Wysterowanie_Pompy_Obiegowej ' + Y3_PC_Pompa_Obiegowa + ' % ').place(x=0, y=220)
-       # l = tkinter.Label(text='Temperatura CO zadana  ' + Ys + '°C  ').place(x=0, y=240)
+        #l = tkinter.Label(text='Temp_powrotu_CO_zadana:  ' + Ys + '°C  ', relief=RIDGE, fg="red").place(x=0, y=240)
+        l = tkinter.Label(text='Temp_Czynnika_Sprężania ' + B4_PC_Temp_Czynnika_Sprezanie + '°C ').place(x=0,y=240)
         l = tkinter.Label(text='Wydajność_Sprężarki_Wymagana ' + PC_Wydajnosc_Sprezarki_Wymagana + ' % ').place(x=0, y=260)
         l = tkinter.Label(text='Wydajność_Sprężarki_Aktualna ' + PC_Wydajnosc_Sprezarki_Aktualna + ' % ').place(x=0, y=280)
         l = tkinter.Label(text='Aktualne_Obroty_Sprężarki ' + PC_Aktualne_Obroty_Sprezarki + ' RPM ').place(x=0, y=300)
@@ -332,86 +411,13 @@ for i in range(5):
 
 sprsun_modbus()
 
-#stworzenie tabelki z danymi z krzywej grzewczej
-
-l = tkinter.Label(text='           Krzywa CO            ', relief=RIDGE,).place(x=0, y=360)
-l = tkinter.Label(text='T.zewnętrzna ', relief=RIDGE,).place(x=0, y=380)
-l = tkinter.Label(text='T.zadana ', relief=RIDGE,).place(x=76, y=380)
-
-l = tkinter.Label(text='X1:', relief=RIDGE,).place(x=0, y=400)
-l = tkinter.Label(text= Ogrzew_TempZewn_X1, relief=RIDGE,).place(x=20, y=400)
-l = tkinter.Label(text='Y1:', relief=RIDGE,).place(x=76, y=400)
-l = tkinter.Label(text= Ogrzew_TempWody_Y1, relief=RIDGE,).place(x=96, y=400)
 
 
-l = tkinter.Label(text='X2:', relief=RIDGE,).place(x=0, y=420)
-l = tkinter.Label(text= Ogrzew_TempZewn_X2, relief=RIDGE,).place(x=20, y=420)
-l = tkinter.Label(text='Y2:', relief=RIDGE,).place(x=76, y=420)
-l = tkinter.Label(text= Ogrzew_TempWody_Y2, relief=RIDGE,).place(x=96, y=420)
-
-l = tkinter.Label(text='X3:', relief=RIDGE,).place(x=0, y=440)
-l = tkinter.Label(text= Ogrzew_TempZewn_X3, relief=RIDGE,).place(x=20, y=440)
-l = tkinter.Label(text='Y3:', relief=RIDGE,).place(x=76, y=440)
-l = tkinter.Label(text= Ogrzew_TempWody_Y3, relief=RIDGE,).place(x=96, y=440)
-
-l = tkinter.Label(text='X4:', relief=RIDGE,).place(x=0, y=460)
-l = tkinter.Label(text= Ogrzew_TempZewn_X4, relief=RIDGE,).place(x=20, y=460)
-l = tkinter.Label(text='Y4:', relief=RIDGE,).place(x=76, y=460)
-l = tkinter.Label(text= Ogrzew_TempWody_Y4, relief=RIDGE,).place(x=96, y=460)
-
-
-#   równanie do wyliczenia temperatury wedlug krzywej Y=((Y2-Y1)/(X2-X1))*(T.ZEWN-X1)+Y1
-#przypisanie zmeinnych tak żeby łatwiej podstawić pod równanie
-
-Temp_Zewnetrzna=float(B3_PC_Temp_Zewnetrzna)  #zamiana na float zeby zrobić obliczenia temp zewnetrznej
-X1=float(Ogrzew_TempZewn_X1)
-X2=float(Ogrzew_TempZewn_X2)
-X3=float(Ogrzew_TempZewn_X3)
-X4=float(Ogrzew_TempZewn_X4)
-
-Y1=float(Ogrzew_TempWody_Y1)
-Y2=float(Ogrzew_TempWody_Y2)
-Y3=float(Ogrzew_TempWody_Y3)
-Y4=float(Ogrzew_TempWody_Y4)
-
-#określenie z ktorego przedziału krzywej należy korzystac
-
-if Temp_Zewnetrzna<X2:  #Y12
-   Y=((Y2-Y1)/(X2-X1))*(Temp_Zewnetrzna-X1)+Y1
-
-elif Temp_Zewnetrzna<X3:  #Y23
-    Y = ((Y3 - Y2) / (X3 - X2)) * (Temp_Zewnetrzna - X2) + Y2
-
-else:
-    Y=((Y4-Y3)/(X4-X3))*(Temp_Zewnetrzna-X3)+Y3     #Y34
-
-#zaokrąglenie do 2 miejsc po przecinku
-Ys=str(round(Y, 2))
-
-#wydruk na ekranie w oknie wartości zadanej
-l = tkinter.Label(text='Temp_powrotu_CO_zadana:  ' + Ys + '°C  ', relief=RIDGE, fg="red").place(x=0, y=240)
-
-
-'''
-Y12 = ((Y2 - Y1) / (X2 - X1)) * (Temp_Zewnetrzna - X1) + Y1
-Y23=((Y3-Y2)/(X3-X2))*(Temp_Zewnetrzna-X2)+Y2
-Y34=((Y4-Y3)/(X4-X3))*(Temp_Zewnetrzna-X3)+Y3
-print(Y12, Y23, Y34)
-print(Ys)
-'''
-
-#e = tkinter.Entry(text='pole ' ).place(x=0, y=300)
-#Label(text=c, relief=RIDGE,  width=25).grid(row=30, column=0)
-#Entry(bg=c,   relief=SUNKEN, width=25).grid(row=30, column=1)
-
-
-#var = simpledialog.askstring("Name prompt", "enter your name")
-#print (var)
 
 def timer1():   #co ile ms ma odczytywać dane z modbus
   #  print(datetime.datetime.now())
     sprsun_modbus()
-    root.after(10000, timer1)
+    root.after(5000, timer1)
 
 root.after(10000, timer1)
 
