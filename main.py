@@ -167,10 +167,9 @@ def sprsun_modbus():
 
     # otwiera plik z danymi
     global jsonObject
-  #  url_="C:/Users/Marek/PycharmProjects/"
 
-    with open('C:/Users/Marek/PycharmProjects/config1.json') as jsonFile:
-    #with open('config1.json') as jsonFile:    uwaga jesli plik z haslem znajduje sie w katalogu projektu to trzeba odkomentować ta linijke a powyzej zakomentowac
+    with open('C:/Users/Marek/PycharmProjects/config.json') as jsonFile:
+    #with open('config1.json') as jsonFile:    uwaga jesli plik z haslem znajduje sie w katalogu projektu to trzeba odkomentować tą linijke  powyzej zakomentować
         jsonObject = json.load(jsonFile)
         jsonFile.close()
 
