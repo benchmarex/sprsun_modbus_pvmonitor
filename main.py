@@ -221,7 +221,7 @@ def sprsun_modbus():
             if regs1:
                 print("modbus registers1 values " + str(regs1))
 
-    '''
+
     global B1_PC_Temp_Powrot
     global B2_PC_Temp_Zasilanie
     global B3_PC_Temp_Zewnetrzna
@@ -252,7 +252,7 @@ def sprsun_modbus():
     global Ogrzew_TempWody_Y4
     global PC_Temp_CO_Zadana
     global B1_PC_Temp_Powrot
-    '''
+
     global Ogrzew_TempZewn_X1
     global Ogrzew_TempWody_Y1
     global Ogrzew_TempZewn_X2
@@ -420,107 +420,6 @@ def funkcjaPrzycisku4():
 #
 #
 #
-#
-
-##################deklaracja zmiennych globalnych###################
-global B1_PC_Temp_Powrot
-global B2_PC_Temp_Zasilanie
-global B3_PC_Temp_Zewnetrzna
-global B4_PC_Temp_Czynnika_Sprezanie
-global B5_PC_Temp_Ssanie
-global B6_PC_Cisnienie_Sprezania
-global B7_PC_Cisnienie_Ssania
-global B8_PC_Temp_CWU
-global B9_PC_Temp_Parownika1
-global B19_PC_Temp_Parownika2
-global Y1_PC_Wentylator_Obroty
-global Y3_PC_Pompa_Obiegowa
-global PC_Wydajnosc_Sprezarki_Wymagana
-global PC_Aktualne_Obroty_Sprezarki
-global PC_Przegrzanie_na_Sprezaniu
-global PC_Przegrzanie_na_Ssaniu
-global B2_PC_Temp_Zas
-global B1_PC_Temp_Pow
-global B8_PC_Temp_CW
-global PC_Aktualne_Obroty_Spr
-global Ogrzew_TempZewn_X1
-global Ogrzew_TempWody_Y1
-global Ogrzew_TempZewn_X2
-global Ogrzew_TempWody_Y2
-global Ogrzew_TempZewn_X3
-global Ogrzew_TempWody_Y3
-global Ogrzew_TempZewn_X4
-global Ogrzew_TempWody_Y4
-global PC_Temp_CO_Zadana
-global B1_PC_Temp_Powrot
-
-B1_PC_Temp_Powrot = '1'
-B2_PC_Temp_Zasilanie = '1'
-B3_PC_Temp_Zewnetrzna = '1'
-B4_PC_Temp_Czynnika_Sprezanie = '1'
-B5_PC_Temp_Ssanie = '1'
-B6_PC_Cisnienie_Sprezania = '1'
-B7_PC_Cisnienie_Ssania = '1'
-B8_PC_Temp_CWU = '1'
-B9_PC_Temp_Parownika1 = '1'
-B19_PC_Temp_Parownika2 = '1'
-Y1_PC_Wentylator_Obroty = '1'
-Y3_PC_Pompa_Obiegowa = '1'
-PC_Wydajnosc_Sprezarki_Wymagana = '1'
-PC_Wydajnosc_Sprezarki_Aktualna = '1'
-PC_Aktualne_Obroty_Sprezarki = '1'
-PC_Przegrzanie_na_Sprezaniu = '1'
-PC_Przegrzanie_na_Ssaniu = '1'
-'''
-Ogrzew_TempZewn_X1 = '1'
-Ogrzew_TempWody_Y1 = '2'
-Ogrzew_TempZewn_X2 = '3'
-Ogrzew_TempWody_Y2 = '4'
-
-Ogrzew_TempZewn_X3 = '1'
-Ogrzew_TempWody_Y3 = '2'
-Ogrzew_TempZewn_X4 = '3'
-Ogrzew_TempWody_Y4 = '4'
-
-PC_Temp_CO_Zadana = '5'
-'''
-
-##################deklaracja zmiennych globalnych koniec###################
-
-
-'''
-    B6_PC_Cisnienie_Sprezania = str((regs[5]) / 10)
-    B7_PC_Cisnienie_Ssania = str((regs[6]) / 10)
-    B8_PC_Temp_CWU = str(data_converter((regs[7])) / 10)
-    B9_PC_Temp_Parownika1 = str(
-        data_converter((regs[8])) / 10)  # mogą być ujemne musi przejśc funkcje sprawdzajaca czy dodatnia czy ujemna
-    B19_PC_Temp_Parownika2 = str(data_converter((regs[18])) / 10)
-    Y1_PC_Wentylator_Obroty = str((regs[9]))
-    Y3_PC_Pompa_Obiegowa = str((regs[10]) / 10)
-    PC_Wydajnosc_Sprezarki_Wymagana = str((regs[15]) / 10)
-    PC_Wydajnosc_Sprezarki_Aktualna = str((regs[16]) / 10)
-    PC_Aktualne_Obroty_Sprezarki = str(data_converter((regs[17])) / 10)
-    PC_Przegrzanie_na_Sprezaniu = str(data_converter((regs[20])) / 10)
-    PC_Przegrzanie_na_Ssaniu = str(data_converter((regs[23])) / 10)
-
-    Ogrzew_TempZewn_X1 = str(data_converter((regs[92])) / 10)  # CO krzywa grzewcza
-    Ogrzew_TempWody_Y1 = str(data_converter((regs[103])) / 10)
-
-    Ogrzew_TempZewn_X2 = str(data_converter((regs[93])) / 10)
-    Ogrzew_TempWody_Y2 = str(data_converter((regs[104])) / 10)
-
-    Ogrzew_TempZewn_X3 = str(data_converter((regs[94])) / 10)
-    Ogrzew_TempWody_Y3 = str(data_converter((regs[105])) / 10)
-
-    Ogrzew_TempZewn_X4 = str(data_converter((regs[95])) / 10)
-    Ogrzew_TempWody_Y4 = str(data_converter((regs1[24])) / 10)  # uwaga z innego banku
-
-    PC_Temp_CO_Zadana = str(data_converter((regs[28])) / 10)
-'''
-
-
-
-
 root = tkinter.Tk()
 root.geometry('600x680')
 root.title('SPRSUN_MODBUS')
