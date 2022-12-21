@@ -3,7 +3,7 @@ import datetime
 import requests
 import json
 import tkinter
-#from tkinter import simpledialog
+from tkinter import simpledialog
 
 from tkinter import *
 
@@ -549,6 +549,14 @@ for i in range(5):
 '''
 
 
+'''
+e = tkinter.Entry(text='pole ' ).place(x=0, y=700)
+Label(text='blue', relief=RIDGE,  width=25).grid(row=30, column=0)
+Entry(bg='black',   relief=SUNKEN, width=25).grid(row=30, column=1)
+
+var = simpledialog.askstring("Name prompt", "enter your name")
+print (var)
+'''
 
 sprsun_modbus()
 
