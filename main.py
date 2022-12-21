@@ -216,6 +216,10 @@ def sprsun_modbus():
             # if success display registers
             if regs2:
                 print("modbus registers2 values " + str(regs2))
+            if regs0:
+                print("modbus registers0 values " + str(regs0))
+            if regs1:
+                print("modbus registers1 values " + str(regs1))
 
     '''
     global B1_PC_Temp_Powrot
@@ -258,6 +262,7 @@ def sprsun_modbus():
     global Ogrzew_TempZewn_X4
     global Ogrzew_TempWody_Y4
     global PC_Temp_CO_Zadana
+    global PC_Temp_CO_Zadana_dzien
 
 
     B1_PC_Temp_Powrot = str(data_converter((regs[0])) / 10)
@@ -294,6 +299,7 @@ def sprsun_modbus():
     PC_Temp_CO_Zadana = str(data_converter((regs[28])) / 10)
 
     PC_TRYB_Pracy = regs0[12]
+    PC_Temp_CO_Zadana_dzien = str(data_converter((regs0[1])) / 10)
 
     '''
     # ----------------------------------------------------------------------------------------------
@@ -317,7 +323,7 @@ def sprsun_modbus():
     l = tkinter.Label(text='Temp zasilania: ' + B2_PC_Temp_Zasilanie + '°C ').place(x=0, y=60)
     l = tkinter.Label(text='Temp zewnętrzna: ' + B3_PC_Temp_Zewnetrzna + '°C ').place(x=0, y=40)
 
-    l = tkinter.Label(text='Temp zadana CO powrotu:  ' + Ys + '°C  ', relief=RIDGE, fg="red").place(x=0, y=20)
+
 
     l = tkinter.Label(text='Temp_Ssania ' + B5_PC_Temp_Ssanie + '°C ').place(x=0, y=80)
     l = tkinter.Label(text='Ciśnienie_Sprężania ' + B6_PC_Cisnienie_Sprezania + ' BAR ').place(x=0, y=100)
@@ -336,25 +342,29 @@ def sprsun_modbus():
     l = tkinter.Label(text='Przegrzanie_na_Sprężaniu ' + PC_Przegrzanie_na_Sprezaniu + '°C ').place(x=0, y=320)
     l = tkinter.Label(text='Przegrzanie_na_Ssaniu ' + PC_Przegrzanie_na_Ssaniu + '°C ').place(x=0, y=340)
 
+    def str_tryb_pracy():
+        l = tkinter.Label(text='TRYB: ' + str_PC_TRYB_Pracy).place(x=0, y=500)
 
     if PC_TRYB_Pracy==0:
         str_PC_TRYB_Pracy=' Dzień'
-        l = tkinter.Label(text='TRYB: ' + str_PC_TRYB_Pracy).place(x=0, y=500)
+        str_tryb_pracy()
+        l = tkinter.Label(text='Temp zadana CO powrotu:  ' + PC_Temp_CO_Zadana_dzien + '°C  ', relief=RIDGE, fg="red").place(x=0, y=20)
 
     elif PC_TRYB_Pracy == 1:
          str_PC_TRYB_Pracy = ' Noc'
-         str_tryb_pracy()
+         l = tkinter.Label(text='Temp zadana CO powrotu:  ' + 'NOC 41' + '°C  ', relief=RIDGE, fg="red").place(x=0, y=20)
+            #uwaga tu nie dopisane jest pobieranie czasu temp noc
 
     elif PC_TRYB_Pracy == 2:
          str_PC_TRYB_Pracy = ' Krzywa Grzewcza'
          str_tryb_pracy()
+         l = tkinter.Label(text='Temp zadana CO powrotu:  ' + Ys + '°C  ', relief=RIDGE, fg="red").place(x=0, y=20)
 
     elif PC_TRYB_Pracy == 3:
          str_PC_TRYB_Pracy = ' Serwisowy'
          str_tryb_pracy()
 
-    def str_tryb_pracy():
-        l = tkinter.Label(text='TRYB: ' + str_PC_TRYB_Pracy).place(x=0, y=500)
+
 
 
 
