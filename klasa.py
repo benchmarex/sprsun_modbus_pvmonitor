@@ -44,6 +44,11 @@ class Application:
 
     def on_select_changed(self, event):
         msb.showinfo("Info", self.cb_value.get())
+        a=self.cb_value.get()
+        #print(a)
+        if a=='Dzień':
+          b=0
+          print(b,a)
 
 
 apl = Application()
