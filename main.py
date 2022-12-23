@@ -378,11 +378,10 @@ def funkcjaPrzycisku4():
 
 def funkcjaPrzycisku5():
 
-
     # Creating tkinter window and set dimensions
     window = tk.Tk()
-    window.title('Combobox')
-    window.geometry('500x250')
+    window.title('Tryb Grzania')
+    window.geometry('400x100')
 
     def callbackFunc(event):
         tryb_pracy = event.widget.get()
