@@ -1,16 +1,59 @@
 import sys
-import datetime
+#import datetime
 import requests
 import json
 import tkinter
 from tkinter import simpledialog
-
-from tkinter import *
-
-from pyModbusTCP.client import ModbusClient
-#from libs import *
 import time
 
+from tkinter import *
+from libs import *
+from pyModbusTCP.client import ModbusClient
+#from klasa import *
+
+import tkinter as tk
+from tkinter import ttk
+
+
+def send_pvmon():
+    with open('C:/Users/Marek/PycharmProjects/config.json') as jsonFile:
+    #with open('config1.json') as jsonFile:    uwaga jesli plik z haslem znajduje sie w katalogu projektu to trzeba odkomentować tą linijke  powyzej zakomentować
+        jsonObject = json.load(jsonFile)
+        jsonFile.close()
+
+    Id_Pvmonitor = jsonObject['Id_Pvmonitor']
+    Password_Pvmonitor = jsonObject['Password_Pvmonitor']
+
+    pm_solartime = pobranie_czasu()
+
+    # z pompy ciepla
+    url3 = 'http://dane.pvmonitor.pl/pv/get2.php?idl=' + str(Id_Pvmonitor) + '&p=' + str(
+        Password_Pvmonitor) + '&tm=' + str(pm_solartime) + '&F22=' + str(B8_PC_Temp_CWU) \
+           + '&F16=' + str(B3_PC_Temp_Zewnetrzna) + '&F12=' + str(B1_PC_Temp_Powrot) + '&F53=' + str(
+        B9_PC_Temp_Parownika1) + '&F14=' + str(B4_PC_Temp_Czynnika_Sprezanie) \
+           + '&F13=' + str(B5_PC_Temp_Ssanie) + '&F27=' + str(B7_PC_Cisnienie_Ssania) + '&F46=' + str(
+        B6_PC_Cisnienie_Sprezania) + '&F500=' + str(PC_Aktualne_Obroty_Sprezarki) \
+           + '&F61=' + str(PC_Przegrzanie_na_Ssaniu) + '&F11=' + str(B2_PC_Temp_Zasilanie) + '&F60=' + str(
+        PC_Przegrzanie_na_Sprezaniu) \
+
+    response3 = requests.post(url3)
+
+  #  print('PVMONITOR3 PC', (response3.status_code))
+    return (response3.status_code)
+
+
+    # 12 temp powrót PC
+    # 16 temp zewn
+    # 22 temp CWU
+    # 53 temp absorbera (parownik)
+    # 14 temp gazu po wy ze sprezarki
+    # 13 temp czynnika po wy ze skraplacza
+    # 60 temp parowania
+    # 61 temp przegrzania        na ssaniu
+    # 27 Cisnienie ssania
+    # 46 Cisnienie sprezania
+    # 500(obroty generatora)
+    # 11 temp zasilania z PC
 
 
 '''
@@ -19,33 +62,6 @@ Sprsun heat pump, print in window, and send as rest API to pvmonitor.com every 3
 '''
 
 
-#pobranie i obrobka danych z pompy z modbus
-
-
-   #     if B2_PC_Temp_Zas < 6 and B1_PC_Temp_Pow < 6 or B8_PC_Temp_CW < 6 or PC_Aktualne_Obroty_Spr < 0:
-    #        print('Wadliwe dane z MODBUS - ponowne pobranie' + str(i))
-   #         time.sleep(5)
-   #     else:
-  #          print('dobre dane z MODBUS - przerwanie petli powtorzeń')
-  #          break
-
-   # if i >= (ilosc_prob - 1):
-  #      print('Wadliwe dane z MODBUS - zamknięcie programu')
-     #   sys.exit()
-  #  return ()
-def data_converter(param):  # funkcja sprawdzajaca czy dodatnia czy ujemna
-
-    if param > 0x8000:  # jest na minusie wartości
-        par = param - 0x10000
-        return par
-    par = param
-    return par
-
-def pobranie_czasu():
-    # pobranie czasu systemowego
-    teraz = datetime.datetime.now()
-    pm_solartime = teraz.strftime("%Y-%m-%dT%H:%M:%S")
-    return (pm_solartime)
 def heat_curve_CO():  #stworzenie tabelki z danymi z krzywej grzewcze j
     l = tkinter.Label(text='           Krzywa CO            ', relief=RIDGE, ).place(x=0, y=360)
     l = tkinter.Label(text='T.zewnętrzna ', relief=RIDGE, ).place(x=0, y=380)
@@ -118,40 +134,7 @@ def heat_curve_CO():  #stworzenie tabelki z danymi z krzywej grzewcze j
     # var = simpledialog.askstring("Name prompt", "enter your name")
     # print (var)
 
-def send_pvmon():
-    Id_Pvmonitor = jsonObject['Id_Pvmonitor']
-    Password_Pvmonitor = jsonObject['Password_Pvmonitor']
 
-    pm_solartime = pobranie_czasu()
-
-    # z pompy ciepla
-    url3 = 'http://dane.pvmonitor.pl/pv/get2.php?idl=' + str(Id_Pvmonitor) + '&p=' + str(
-        Password_Pvmonitor) + '&tm=' + str(pm_solartime) + '&F22=' + str(B8_PC_Temp_CWU) \
-           + '&F16=' + str(B3_PC_Temp_Zewnetrzna) + '&F12=' + str(B1_PC_Temp_Powrot) + '&F53=' + str(
-        B9_PC_Temp_Parownika1) + '&F14=' + str(B4_PC_Temp_Czynnika_Sprezanie) \
-           + '&F13=' + str(B5_PC_Temp_Ssanie) + '&F27=' + str(B7_PC_Cisnienie_Ssania) + '&F46=' + str(
-        B6_PC_Cisnienie_Sprezania) + '&F500=' + str(PC_Aktualne_Obroty_Sprezarki) \
-           + '&F61=' + str(PC_Przegrzanie_na_Ssaniu) + '&F11=' + str(B2_PC_Temp_Zasilanie) + '&F60=' + str(
-        PC_Przegrzanie_na_Sprezaniu) \
-
-    response3 = requests.post(url3)
-
-  #  print('PVMONITOR3 PC', (response3.status_code))
-    return (response3.status_code)
-
-
-    # 12 temp powrót PC
-    # 16 temp zewn
-    # 22 temp CWU
-    # 53 temp absorbera (parownik)
-    # 14 temp gazu po wy ze sprezarki
-    # 13 temp czynnika po wy ze skraplacza
-    # 60 temp parowania
-    # 61 temp przegrzania        na ssaniu
-    # 27 Cisnienie ssania
-    # 46 Cisnienie sprezania
-    # 500(obroty generatora)
-    # 11 temp zasilania z PC
 def sprsun_modbus():
     # ilosc_prob = 5  # tyle prob pobrania danych z modbus jesli wystapą jakis przeklamania opisane w w warunku ponizej
 
@@ -301,19 +284,6 @@ def sprsun_modbus():
     PC_TRYB_Pracy = regs0[12]
     PC_Temp_CO_Zadana_dzien = str(data_converter((regs0[1])) / 10)
 
-    '''
-    # ----------------------------------------------------------------------------------------------
-    # sprawdzenie czy nie ma przeklamań w odczycie z pompy potrafi czasami odczytywac same zera
-    # jesli tak jest zakonczony program i kolejna proba przy nastepnym wywolaniu spelnione  warunki
-
-    B2_PC_Temp_Zas = float(B2_PC_Temp_Zasilanie)
-    B1_PC_Temp_Pow = float(B1_PC_Temp_Powrot)
-    B8_PC_Temp_CW = float(B8_PC_Temp_CWU)
-    PC_Aktualne_Obroty_Spr = float(PC_Aktualne_Obroty_Sprezarki)
-
-
-
-    '''
 
     heat_curve_CO()
 
@@ -346,14 +316,15 @@ def sprsun_modbus():
         l = tkinter.Label(text='TRYB: ' + str_PC_TRYB_Pracy).place(x=0, y=500)
 
     if PC_TRYB_Pracy==0:
-        str_PC_TRYB_Pracy=' Dzień'
+        str_PC_TRYB_Pracy=' Dzień                  '
         str_tryb_pracy()
         l = tkinter.Label(text='Temp zadana CO powrotu:  ' + PC_Temp_CO_Zadana_dzien + '°C  ', relief=RIDGE, fg="red").place(x=0, y=20)
 
     elif PC_TRYB_Pracy == 1:
-         str_PC_TRYB_Pracy = ' Noc'
+         str_PC_TRYB_Pracy = ' Noc                 '
          l = tkinter.Label(text='Temp zadana CO powrotu:  ' + 'NOC 41' + '°C  ', relief=RIDGE, fg="red").place(x=0, y=20)
-            #uwaga tu nie dopisane jest pobieranie czasu temp noc
+         str_tryb_pracy()
+                     #uwaga tu nie dopisane jest pobieranie czasu temp noc
 
     elif PC_TRYB_Pracy == 2:
          str_PC_TRYB_Pracy = ' Krzywa Grzewcza'
@@ -361,12 +332,8 @@ def sprsun_modbus():
          l = tkinter.Label(text='Temp zadana CO powrotu:  ' + Ys + '°C  ', relief=RIDGE, fg="red").place(x=0, y=20)
 
     elif PC_TRYB_Pracy == 3:
-         str_PC_TRYB_Pracy = ' Serwisowy'
+         str_PC_TRYB_Pracy = ' Serwisowy            '
          str_tryb_pracy()
-
-
-
-
 
 
 #wysyłka do Pvmonitor
@@ -404,19 +371,82 @@ def funkcjaPrzycisku2():
 
 
 def funkcjaPrzycisku4():
-    print('Wcisnieto przycisk exit4')
-  #  time.sleep(1)
-    print('koniec')
-    sys.exit(0)
+  #  print('Wcisnieto przycisk exit4')
+     print('koniec')
+     sys.exit()
 
-#poczatek programu
-    global Ys
-    Ys='temp'
+
+def funkcjaPrzycisku5():
+
+
+    # Creating tkinter window and set dimensions
+    window = tk.Tk()
+    window.title('Combobox')
+    window.geometry('500x250')
+
+    def callbackFunc(event):
+        tryb_pracy = event.widget.get()
+
+        window.destroy()
+        if tryb_pracy == 'Dzień':
+            b_kl = 0
+            b = tkinter.Button(root, text='  Dzień  ', width=12, bg='orange', fg='white', command=funkcjaPrzycisku5)
+            b.place(x=137, y=497)
+
+        elif tryb_pracy == 'Noc':
+            b_kl = 1
+            b = tkinter.Button(root, text='  Noc  ', width=12, bg='orange', fg='white', command=funkcjaPrzycisku5)
+            b.place(x=137, y=497)
+
+        elif tryb_pracy == 'Krzywa Grzewcza':
+            b_kl = 2
+            b = tkinter.Button(root, text='Krzywa Grzewcza', width=12, bg='orange', fg='white', command=funkcjaPrzycisku5)
+            b.place(x=137, y=497)
+
+        elif tryb_pracy == 'Serwisowy':
+            b_kl = 3
+            b = tkinter.Button(root, text=' Serwisowy ', width=12, bg='orange', fg='white', command=funkcjaPrzycisku5)
+            b.place(x=137, y=497)
+
+        PC_TRYB_Pracy = c.write_single_register(12, b_kl)   #zapisuje tryb do pompy modbus
+        #print(c.read_holding_registers(12,1))
+
+
+
+
+
+    # label text for title
+    ttk.Label(window, text="Wybierz tryb pracy z listy",
+              background='cyan', foreground="black",
+              font=("Times New Roman", 15)).grid(row=0, column=1)
+
+    # Set label
+    ttk.Label(window, text="Wybierz tryb :",
+              font=("Times New Roman", 12)).grid(column=0,
+                                                 row=5, padx=5, pady=25)
+
+    # Create Combobox
+    n = tk.StringVar()
+    tryb_pracy = ttk.Combobox(window, width=27, textvariable=n)
+
+    # Adding combobox drop down list
+    tryb_pracy['values'] = ('Dzień', 'Noc', 'Krzywa Grzewcza', 'Serwisowy')
+
+    tryb_pracy.grid(column=1, row=5)
+    tryb_pracy.current()
+    tryb_pracy.bind("<<ComboboxSelected>>", callbackFunc)
+
+    window.mainloop()
+
+
+
+
 
 
 #poczatek petli głownej
 #
-#
+global Ys
+Ys = 'temp'
 #
 #
 #
@@ -437,6 +467,8 @@ b.place(x=450,y=200)
 b=tkinter.Button(root, text='Wyjście',width=15, bg='black', fg='white', command=funkcjaPrzycisku4)
 b.place(x=450,y=250)
 
+b=tkinter.Button(root, text='Tryb Grzania',width=12, bg='orange', fg='white', command=funkcjaPrzycisku5)
+b.place(x=137,y=497)
 
 
 
