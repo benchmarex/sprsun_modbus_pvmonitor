@@ -4,19 +4,17 @@ import json
 #import sys
 
 
-def pobranie_czasu():
+def solar_time():
     # pobranie czasu systemowego
     teraz = datetime.datetime.now()
-    pm_solartime = teraz.strftime("%Y-%m-%dT%H:%M:%S")
-    return pm_solartime
+    return str(teraz.strftime("%Y-%m-%dT%H:%M:%S"))
 
-def data_converter(param):  # funkcja sprawdzajaca czy dodatnia czy ujemna
+def data_converter(param):  # funkcja  sprawdzajaca i przeliczająca czy dodatnia czy ujemna
 
     if param > 0x8000:  # jest na minusie wartości
-        par = param - 0x10000
-        return par
-    par = param
-    return par
+       return param - 0x10000
+
+    return param
 
 
 

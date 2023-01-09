@@ -3,14 +3,16 @@ import sys
 import requests
 import json
 import tkinter
-from tkinter import simpledialog
+#from tkinter import simpledialog
 import time
 
-from tkinter import *
+
 from libs import *
 from pyModbusTCP.client import ModbusClient
 #from klasa import *
 
+
+from tkinter import *
 import tkinter as tk
 from tkinter import ttk
 
@@ -19,16 +21,14 @@ def send_pvmon():
     with open('C:/Users/Marek/PycharmProjects/config.json') as jsonFile:
     #with open('config1.json') as jsonFile:    uwaga jesli plik z haslem znajduje sie w katalogu projektu to trzeba odkomentować tą linijke  powyzej zakomentować
         jsonObject = json.load(jsonFile)
-        jsonFile.close()
+        #jsonFile.close()     zamyka sie samo dzieki otwieraniu przez with
 
     Id_Pvmonitor = jsonObject['Id_Pvmonitor']
     Password_Pvmonitor = jsonObject['Password_Pvmonitor']
 
-    pm_solartime = pobranie_czasu()
-
     # z pompy ciepla
     url3 = 'http://dane.pvmonitor.pl/pv/get2.php?idl=' + str(Id_Pvmonitor) + '&p=' + str(
-        Password_Pvmonitor) + '&tm=' + str(pm_solartime) + '&F22=' + str(B8_PC_Temp_CWU) \
+        Password_Pvmonitor) + '&tm=' + solar_time() + '&F22=' + str(B8_PC_Temp_CWU) \
            + '&F16=' + str(B3_PC_Temp_Zewnetrzna) + '&F12=' + str(B1_PC_Temp_Powrot) + '&F53=' + str(
         B9_PC_Temp_Parownika1) + '&F14=' + str(B4_PC_Temp_Czynnika_Sprezanie) \
            + '&F13=' + str(B5_PC_Temp_Ssanie) + '&F27=' + str(B7_PC_Cisnienie_Ssania) + '&F46=' + str(
@@ -37,7 +37,7 @@ def send_pvmon():
         PC_Przegrzanie_na_Sprezaniu) \
 
     response3 = requests.post(url3)
-
+    #print(response3.raw)
   #  print('PVMONITOR3 PC', (response3.status_code))
     return (response3.status_code)
 
@@ -416,12 +416,12 @@ def funkcjaPrzycisku5():
 
     # label text for title
     ttk.Label(window, text="Wybierz tryb pracy z listy",
-              background='cyan', foreground="black",
-              font=("Times New Roman", 15)).grid(row=0, column=1)
+              background='orange', foreground="black",
+              font=("Times New Roman", 12)).grid(row=0, column=1)
 
     # Set label
     ttk.Label(window, text="Wybierz tryb :",
-              font=("Times New Roman", 12)).grid(column=0,
+              font=("Times New Roman", 10)).grid(column=0,
                                                  row=5, padx=5, pady=25)
 
     # Create Combobox
