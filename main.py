@@ -151,7 +151,7 @@ def sprsun_modbus():
     # otwiera plik z danymi
     global jsonObject
 
-    with open('C:/Users/Marek/PycharmProjects/config.json') as jsonFile:
+    with open('D:\!dane\!programowanie\!pycharm2023\PycharmProjects/config.json') as jsonFile:
     #with open('config1.json') as jsonFile:    uwaga jesli plik z haslem znajduje sie w katalogu projektu to trzeba odkomentować tą linijke  powyzej zakomentować
         jsonObject = json.load(jsonFile)
         jsonFile.close()
