@@ -7,7 +7,7 @@ Konfiguracja intergfejsu rs485_modbus to Wifi Elfin EW11 tak jak na zrzucie elfi
 Po takiej konfiguracji przestaje działać oryginalna apliakcja do pompy Sprsun.
 Statystyki mojej instalacji pompy ciepła (i nie tylko)  https://pvmonitor.pl/i_user.php?idinst=10097#/pc0
 Mój program używa gotowej biblioteki modbus https://pypi.org/project/pyModbusTCP/
-
+Program okienkowy korzysta z biblioteki tkinker.
 
 EN
 This program is written in Python 3.11 in Pycharm.
@@ -18,3 +18,4 @@ Configuration of the rs485_modbus interface is Wifi Elfin EW11 as in the screens
 After this configuration, the original application for the Sprsun pump stops working.
 Statistics of my heat pump installation (and not only) https://pvmonitor.pl/i_user.php?idinst=10097#/pc0
 My program uses ready made modbus library https://pypi.org/project/pyModbusTCP/
+The window program uses the tkinter library.
